@@ -1,11 +1,10 @@
 ﻿using System.Collections.Generic;
 
-namespace Siri
+namespace Siri.Interfaces
 {
     public interface IWordAnalyzer
     {
-        void FindRhymes(string word);
-        void GetMatches(Dictionary<string, int> matches);
-        void PrintResults(string results);
+        List<string> FindRhymes(string word);
+        List<string> GetResults(Dictionary<string, int> matches);
     }
 }

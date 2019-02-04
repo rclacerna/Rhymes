@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Siri
+namespace Siri.Interfaces
 {
     public interface IData
     {

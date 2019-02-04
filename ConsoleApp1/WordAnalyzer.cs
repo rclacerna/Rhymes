@@ -1,75 +1,71 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Siri.Interfaces;
 
 namespace Siri
 {
     public class WordAnalyzer : IWordAnalyzer
     {
-        private IData _data;
-        private Dictionary<string, int> wordCollection;
+        private readonly Dictionary<string, int> _wordCollection;
 
         public WordAnalyzer(IData data)
         {
-            _data = data;
-            wordCollection = _data.WordsCollection();
+            _wordCollection = data.WordsCollection();
         }
 
-        public void FindRhymes(string userInput)
+        public List<string> FindRhymes(string userInput)
         {
             if (!IsValid(userInput))
-            {
-                PrintResults("Matches none");
-            }
-            else
-            {
-                ProcessAllWordsInParallel(userInput);
-                GetMatches(wordCollection);
-            }
+                return null;
+
+            ProcessAllWordsInParallel(userInput);
+
+            return GetResults(_wordCollection);
         }
 
         private void ProcessAllWordsInParallel(string userInput)
         {
-            Parallel.ForEach(wordCollection.ToList(), word =>
-            {
-                wordCollection[word.Key] += ScoreTokens(userInput, word.Key);
-            });
+            Parallel.ForEach(_wordCollection.ToList(),
+                word =>
+                {
+                    _wordCollection[word.Key] += ScoreTokens(userInput, word.Key);
+                });
         }
 
-        public void GetMatches(Dictionary<string, int> scoreTable)
+        public List<string> GetResults(Dictionary<string, int> scoreTable)
         {
             var scores = scoreTable.OrderByDescending(key => key.Value).ToList();
             var highestScore = scores[0].Value;
 
             if (highestScore < 1)
-            {
-                PrintResults("Matches none");
-            }
-            else
-            {
-                for (var i = 0; i <= scores.Count - 1; i++)
-                {
-                    if (scores[i].Value < highestScore)
-                    {
-                        break;
-                    }
+                return null;
 
-                    PrintResults(scores[i].Key);
-                }
+            return GetMatchList(scores, highestScore);
+        }
+
+        private static List<string> GetMatchList(List<KeyValuePair<string, int>> scores, int highestScore)
+        {
+            var matches = new List<string>();
+
+            foreach (var score in scores)
+            {
+                if (score.Value < highestScore)
+                    break;
+
+                matches.Add(score.Key);
             }
+            return matches;
         }
 
         private int ScoreTokens(string userInput, string wordToMatch)
         {
             var score = 0;
 
-            for (int i = 0; i < userInput.Length - 1; i++)
+            for (var i = 0; i < userInput.Length - 1; i++)
             {
                 if (GetChar(userInput, i) != GetChar(wordToMatch, i))
-                {
                     break;
-                }
 
                 score++;
             }
@@ -79,23 +75,15 @@ namespace Siri
 
         private char GetChar(string word, int index)
         {
-            return word[(word.Length - 1) - index];
-        }
-
-        public void PrintResults(string results)
-        {
-            Console.WriteLine(results);
+            return word[word.Length - 1 - index];
         }
 
         public bool IsValid(string userInput)
         {
-            if (string.IsNullOrWhiteSpace(userInput) || wordCollection.ContainsKey(userInput))
-            {
+            if (string.IsNullOrWhiteSpace(userInput) || _wordCollection.ContainsKey(userInput))
                 return false;
-            }
 
             return true;
         }
-
     }
 }

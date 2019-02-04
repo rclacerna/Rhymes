@@ -1,10 +1,12 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using System;
+using Microsoft.Extensions.DependencyInjection;
+using Siri.Interfaces;
 
 namespace Siri
 {
     internal class Startup
     {
-        private static void Main(string[] args)
+        public static void Main(string[] args)
         {
             var serviceProvider = new ServiceCollection()
                 .AddSingleton<IData, Data>()
@@ -13,9 +15,17 @@ namespace Siri
 
             var analyzerService = serviceProvider.GetService<IWordAnalyzer>();
 
-            var userInput = "uting";
+            var userInput = "yg";
+            var results = analyzerService.FindRhymes(userInput);
 
-            analyzerService.FindRhymes(userInput);
+            if (results == null)
+            {
+                Console.WriteLine("No Matches found");
+            }
+            else
+            {
+                results.ForEach(Console.WriteLine);
+            }
         }
     }
 }
