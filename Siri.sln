@@ -5,6 +5,8 @@ VisualStudioVersion = 15.0.28307.329
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Siri", "ConsoleApp1\Siri.csproj", "{7896A95A-BB10-46A5-8F17-7EDEFE57E8A7}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Siri.Tests", "Siri.Tests\Siri.Tests.csproj", "{03772963-D2A3-4892-B764-80D0FDD85076}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{7896A95A-BB10-46A5-8F17-7EDEFE57E8A7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7896A95A-BB10-46A5-8F17-7EDEFE57E8A7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7896A95A-BB10-46A5-8F17-7EDEFE57E8A7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{03772963-D2A3-4892-B764-80D0FDD85076}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{03772963-D2A3-4892-B764-80D0FDD85076}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{03772963-D2A3-4892-B764-80D0FDD85076}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{03772963-D2A3-4892-B764-80D0FDD85076}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
