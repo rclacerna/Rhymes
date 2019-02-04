@@ -15,12 +15,15 @@ namespace Siri
 
             var analyzerService = serviceProvider.GetService<IWordAnalyzer>();
 
-            var userInput = "yg";
-            var results = analyzerService.FindRhymes(userInput);
+            Console.WriteLine("Please enter a word: ");
+            var input = Console.ReadLine();
+            Console.WriteLine("---results---");
+
+            var results = analyzerService.FindRhymes(input);
 
             if (results == null)
             {
-                Console.WriteLine("No Matches found");
+                Console.WriteLine("Matches none");
             }
             else
             {

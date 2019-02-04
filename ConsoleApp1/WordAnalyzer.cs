@@ -16,7 +16,7 @@ namespace Siri
 
         public List<string> FindRhymes(string userInput)
         {
-            if (!IsValid(userInput))
+            if (string.IsNullOrWhiteSpace(userInput) || _wordCollection.ContainsKey(userInput))
                 return null;
 
             ProcessAllWordsInParallel(userInput);
@@ -76,14 +76,6 @@ namespace Siri
         private char GetChar(string word, int index)
         {
             return word[word.Length - 1 - index];
-        }
-
-        public bool IsValid(string userInput)
-        {
-            if (string.IsNullOrWhiteSpace(userInput) || _wordCollection.ContainsKey(userInput))
-                return false;
-
-            return true;
         }
     }
 }
